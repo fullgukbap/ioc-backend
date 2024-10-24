@@ -55,7 +55,7 @@ func NewRouter(
 		},
 	)
 
-	return nil
+	return app
 }
 
 func (r *Router) Route() {
