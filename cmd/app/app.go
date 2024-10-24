@@ -43,4 +43,5 @@ func main() {
 		),
 		fx.Invoke(func(r *router.Router) {}),
 	).Run()
+
 }

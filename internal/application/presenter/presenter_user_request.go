@@ -17,11 +17,11 @@ func (r UserCreateRequest) ToDomain() *domain.User {
 }
 
 type UserGetReqeust struct {
-	ID int `query:"id"`
+	ID int `uri:"id"`
 }
 
 type UserUpdateRequest struct {
-	ID   uint   `query:"id"`
+	ID   uint   `uri:"id"`
 	Name string `json:"name"`
 }
 
@@ -36,5 +36,5 @@ func (r UserUpdateRequest) NewUserUpdateRequest() *domain.User {
 }
 
 type UserDeleteRequest struct {
-	ID int `query:"id"`
+	ID int `uri:"id"`
 }

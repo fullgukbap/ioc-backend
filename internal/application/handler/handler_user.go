@@ -50,7 +50,7 @@ func (h UserHandler) Get(c fiber.Ctx) error {
 	h.logger.Info("processing user get request", zap.String("ip", c.IP()))
 
 	req := new(presenter.UserGetReqeust)
-	if err := c.Bind().Query(req); err != nil {
+	if err := c.Bind().URI(req); err != nil {
 		return err
 	}
 
@@ -70,7 +70,7 @@ func (h UserHandler) Update(c fiber.Ctx) error {
 		return err
 	}
 
-	if err := c.Bind().Query(req); err != nil {
+	if err := c.Bind().URI(req); err != nil {
 		return err
 	}
 
@@ -86,7 +86,7 @@ func (h UserHandler) Delete(c fiber.Ctx) error {
 	h.logger.Info("processing user delete request", zap.String("ip", c.IP()))
 
 	req := new(presenter.UserDeleteRequest)
-	if err := c.Bind().Query(req); err != nil {
+	if err := c.Bind().URI(req); err != nil {
 		return err
 	}
 

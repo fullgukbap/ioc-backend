@@ -48,7 +48,9 @@ func NewRouter(
 			},
 			OnStop: func(ctx context.Context) error {
 				logger.Info("stopping server")
-				return app.Shutdown()
+				// TODO: graceful shutdown
+				// router.Shutdown()
+				return nil
 			},
 		},
 	)
