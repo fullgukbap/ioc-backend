@@ -7,6 +7,7 @@ import (
 
 	"github.com/gofiber/fiber/v3"
 	"go.uber.org/fx"
+	"go.uber.org/zap"
 )
 
 type Router struct {
@@ -18,6 +19,7 @@ type Router struct {
 func NewRouter(
 	lc fx.Lifecycle,
 	config *config.Config,
+	logger *zap.Logger,
 	userHandler *handler.UserHandler,
 	errorHandler *handler.ErrorHandler,
 ) *Router {
@@ -34,6 +36,7 @@ func NewRouter(
 	lc.Append(
 		fx.Hook{
 			OnStart: func(ctx context.Context) error {
+				logger.Info("starting server", zap.String("port", config.HTTP.Port))
 				go func() {
 					app.Route()
 					if err := app.Start(); err != nil {
@@ -44,6 +47,7 @@ func NewRouter(
 				return nil
 			},
 			OnStop: func(ctx context.Context) error {
+				logger.Info("stopping server")
 				return app.Shutdown()
 			},
 		},
@@ -53,11 +57,14 @@ func NewRouter(
 }
 
 func (r *Router) Route() {
-	api := r.Group("/api")
+	v1 := r.Group("/v1")
 	{
-		user := api.Group("/user")
+		api := v1.Group("/api")
 		{
-			r.userHandler.Route(user)
+			users := api.Group("/users")
+			{
+				r.userHandler.Route(users)
+			}
 		}
 	}
 }
